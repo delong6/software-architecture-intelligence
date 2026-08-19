@@ -1,17 +1,26 @@
 flowchart LR
     CLIENT[客户端]
-    GATEWAY[网关]
-    APP[应用]
-    SERVICE[业务服务]
-    DB[(数据库)]
-    REDIS[(Redis)]
-    MQ[(消息队列)]
+
+    subgraph SERVER[服务端]
+        GW[网关]
+        APP[应用层]
+        SVC[业务服务]
+        WORKER[异步 Worker]
+    end
+
+    subgraph DATA[数据与中间件]
+        DB[(数据库)]
+        REDIS[(Redis)]
+        MQ[(消息队列)]
+    end
+
     EXT[第三方服务]
 
-    CLIENT --> GATEWAY
-    GATEWAY --> APP
-    APP --> SERVICE
-    SERVICE --> DB
-    SERVICE --> REDIS
-    SERVICE --> MQ
-    SERVICE --> EXT
+    CLIENT --> GW
+    GW --> APP
+    APP --> SVC
+    SVC --> DB
+    SVC --> REDIS
+    SVC --> MQ
+    MQ --> WORKER
+    SVC --> EXT

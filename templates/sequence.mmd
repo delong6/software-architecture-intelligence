@@ -4,9 +4,16 @@ sequenceDiagram
     participant S as Service
     participant DB as 数据库
 
-    FE->>API: 请求
-    API->>S: 执行业务
-    S->>DB: 读写数据
-    DB-->>S: 返回结果
-    S-->>API: 返回结果
-    API-->>FE: HTTP 响应
+    FE->>API: POST /example
+    API->>S: execute()
+    alt 前置条件满足
+        loop 最多重试3次
+            S->>DB: 写入数据
+            DB-->>S: 执行结果
+        end
+        S-->>API: 返回结果
+        API-->>FE: 200 OK
+    else 前置条件不满足
+        S-->>API: 业务错误
+        API-->>FE: 400 Bad Request
+    end

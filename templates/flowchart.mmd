@@ -1,14 +1,12 @@
 flowchart TD
-    START([开始])
-    ACTION[业务操作]
-    CHECK{条件是否满足？}
-    SUCCESS[成功]
-    FAILURE[失败]
-    END([结束])
-
-    START --> ACTION
-    ACTION --> CHECK
-    CHECK -->|是| SUCCESS
-    CHECK -->|否| FAILURE
-    SUCCESS --> END
-    FAILURE --> END
+    START([开始]) --> ACTION[业务操作]
+    ACTION --> CHECK{前置条件是否满足？}
+    CHECK -->|是| MAIN[执行主流程]
+    CHECK -->|否| FAIL[失败处理]
+    MAIN --> CALL{关键调用是否成功？}
+    CALL -->|成功| COMMIT[提交事务]
+    CALL -->|失败| RT{可重试且未超限？}
+    RT -->|是| WAIT[退避等待] --> MAIN
+    RT -->|否| ROLLBACK[回滚] --> FAIL
+    COMMIT --> DONE([结束])
+    FAIL --> DONE
