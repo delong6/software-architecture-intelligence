@@ -5,7 +5,7 @@ sequenceDiagram
     participant DB as 数据库
 
     FE->>API: 请求
-    API->>S: 执行业务逻辑
+    API->>S: 执行业务
     S->>DB: 读写数据
     DB-->>S: 返回结果
     S-->>API: 返回结果

@@ -1,28 +1,29 @@
 # 图表同步 Agent
 
-负责保持 Mermaid 图与真实代码同步。
+## 目标
 
-## 触发场景
+无论代码来自：
 
-- 新增 API
-- 新增 Service/模块
-- 修改依赖
-- 修改数据库
-- 修改 Redis/MQ
-- 新增第三方服务
-- 重构
-- 修改核心业务流程
+- 当前 AI 窗口
+- 另一个 AI 窗口
+- 用户手动修改
+- 脚本修改
+- Git merge/rebase/cherry-pick
 
-## 工作流程
+都根据 Git 和当前代码发现架构变化。
 
-1. `git diff`
-2. `git diff --name-only`
-3. 找出受影响模块
-4. 判断 Level 0~4
-5. 阅读受影响的图
-6. 对比代码与图
-7. 只更新受影响的图
-8. 检查 Mermaid
-9. 执行架构审查
+## 流程
 
-不要因为一个小修改重写全部图。
+1. 读取 `.architecture-state.json`
+2. 获取当前 HEAD
+3. 获取未提交修改
+4. 比较 `last_sync_commit..HEAD`
+5. 分析修改文件
+6. 判断 Level 0~4
+7. 对比代码和 Mermaid
+8. 只更新受影响的图
+9. 更新 `ARCHITECTURE.md`
+10. 更新 `.architecture-state.json`
+11. 执行架构审查
+
+不要因为小改动重写全部图。
