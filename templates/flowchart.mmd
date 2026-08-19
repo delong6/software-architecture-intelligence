@@ -1,0 +1,14 @@
+flowchart TD
+    START([开始])
+    ACTION[业务操作]
+    CHECK{条件是否满足？}
+    SUCCESS[成功]
+    FAILURE[失败]
+    END([结束])
+
+    START --> ACTION
+    ACTION --> CHECK
+    CHECK -->|是| SUCCESS
+    CHECK -->|否| FAILURE
+    SUCCESS --> END
+    FAILURE --> END

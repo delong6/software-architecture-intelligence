@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant FE as 前端
+    participant API as API
+    participant S as Service
+    participant DB as 数据库
+
+    FE->>API: 请求
+    API->>S: 执行业务逻辑
+    S->>DB: 读写数据
+    DB-->>S: 返回结果
+    S-->>API: 返回结果
+    API-->>FE: HTTP 响应

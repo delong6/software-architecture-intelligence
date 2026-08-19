@@ -1,0 +1,17 @@
+flowchart LR
+    CLIENT[客户端]
+    GATEWAY[网关]
+    APP[应用]
+    SERVICE[业务服务]
+    DB[(数据库)]
+    REDIS[(Redis)]
+    MQ[(消息队列)]
+    EXT[第三方服务]
+
+    CLIENT --> GATEWAY
+    GATEWAY --> APP
+    APP --> SERVICE
+    SERVICE --> DB
+    SERVICE --> REDIS
+    SERVICE --> MQ
+    SERVICE --> EXT
